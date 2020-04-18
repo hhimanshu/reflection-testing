@@ -10,4 +10,4 @@ This project is intended to demonstrate the following using `Java`, `Maven` and 
 
 And there could be more additions to such a list.  
 
-This project makes use of [ReflectionUtils](https://junit.org/junit5/docs/5.0.3/api/org/junit/platform/commons/util/ReflectionUtils.html) class from `Junit5` and `Java`'s [Reflection API](https://junit.org/junit5/docs/5.0.3/api/org/junit/platform/commons/util/ReflectionUtils.html) 
+This project makes use of [ReflectionUtils](https://junit.org/junit5/docs/5.0.3/api/org/junit/platform/commons/util/ReflectionUtils.html) class from `Junit5` and `Java`'s [Reflection API](https://docs.oracle.com/javase/tutorial/reflect/index.html) 
