@@ -56,13 +56,29 @@ public class SavingsCalculatorTest {
         final Constructor constructor = constructors[0];
         assertEquals(2, constructor.getParameterCount(), "Constructor should have 2 parameters");
 
-        for(final Parameter parameter: constructor.getParameters()) {
+        for (final Parameter parameter : constructor.getParameters()) {
             assertEquals(float[].class, parameter.getType(), "Constructor parameter should be of type 'float[]'");
         }
     }
 
     @Test
-    public void testFieldsValueSetWhenConstructorCalled() {
+    public void testFieldsValueSetWhenConstructorCalled() throws IllegalAccessException {
+        float[] credits = new float[]{10.0f, 20.0f};
+        float[] debits = new float[]{5.0f};
+        final SavingsCalculator calculator = new SavingsCalculator(credits, debits);
+
+        final Class clazz = calculator.getClass();
+        final Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            float[] fieldValues = (float[]) field.get(calculator);
+            if (field.getName().equals("credits")) {
+                assertTrue(Arrays.equals(credits, fieldValues), "credits parameter should set the value in class field name 'credits'");
+            } else if (field.getName().equals("debits")) {
+                assertTrue(Arrays.equals(debits, fieldValues), "debits parameter should set the value in class field name 'debits'");
+            }
+        }
     }
 
     @Test
