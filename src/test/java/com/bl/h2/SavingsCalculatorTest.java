@@ -19,7 +19,7 @@ public class SavingsCalculatorTest {
     private final String classToFind = "com.bl.h2.SavingsCalculator";
 
     public Optional<Class<?>> getAppClass() {
-        Try<Class<?>> aClass = tryToLoadClass(classToFind);
+        final Try<Class<?>> aClass = tryToLoadClass(classToFind);
         return aClass.toOptional();
     }
 
@@ -70,7 +70,7 @@ public class SavingsCalculatorTest {
         final Class clazz = calculator.getClass();
         final Field[] fields = clazz.getDeclaredFields();
 
-        for (Field field : fields) {
+        for (final Field field : fields) {
             field.setAccessible(true);
             float[] fieldValues = (float[]) field.get(calculator);
             if (field.getName().equals("credits")) {
