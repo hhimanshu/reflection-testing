@@ -3,13 +3,9 @@ package com.bl.h2;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -83,6 +79,16 @@ public class SavingsCalculatorTest {
 
     @Test
     public void testCalculateExists() {
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        final Class savingsCalculator = maybeSavingsCalculator.get();
+
+        final Method[] methods = savingsCalculator.getMethods();
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> method.getName().equals("calculate")).collect(Collectors.toList());
+
+        assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called 'calculate'");
+
+        final Method calculate = filteredMethod.get(0);
+        assertEquals(float.class, calculate.getReturnType(), "calculate method must return a value of type 'float'");
     }
 
     @Test
