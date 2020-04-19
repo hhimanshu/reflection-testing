@@ -1,5 +1,6 @@
 package com.bl.h2;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
@@ -98,25 +99,44 @@ public class SavingsCalculatorTest {
 
     @Test
     public void testSumOfCreditsExists() {
-        // final String methodName = "sumOfCredits";
+        final String methodName = "sumOfCredits";
+
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        final Class savingsCalculator = maybeSavingsCalculator.get();
+
+        final Method[] methods = savingsCalculator.getDeclaredMethods();
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> {
+            return method.getName().equals(methodName);
+        }).collect(Collectors.toList());
+
+        assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called '" + methodName + "'");
+
+        final Method sumOfCredits = filteredMethod.get(0);
+        assertTrue(isPrivate(sumOfCredits), methodName + " must be declared as 'private'");
+        assertEquals(float.class, sumOfCredits.getReturnType(), methodName + " method must return a value of type 'float'");
     }
 
+    @Disabled
     @Test
     public void testSumOfCreditsWorksCorrectly() {
     }
 
+    @Disabled
     @Test
     public void testSumOfDebitsExists() {
     }
 
+    @Disabled
     @Test
     public void testSumOfDebitsWorksCorrectly() {
     }
 
+    @Disabled
     @Test
     public void testCalculateWorksCorrectly() {
     }
 
+    @Disabled
     @Test
     public void testMainMethodPrintsCorrectOutput() {
     }
