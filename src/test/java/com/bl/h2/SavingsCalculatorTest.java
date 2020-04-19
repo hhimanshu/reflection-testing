@@ -45,11 +45,12 @@ public class SavingsCalculatorTest {
     public void testConstructor() {
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
         final Class savingsCalculator = maybeSavingsCalculator.get();
-        final Constructor[] constructors = savingsCalculator.getConstructors();
+        final Constructor[] constructors = savingsCalculator.getDeclaredConstructors();
 
         assertEquals(1, constructors.length, classToFind + " should have 1 constructor");
 
         final Constructor constructor = constructors[0];
+        assertTrue(isPublic(constructor), "constructor must be declared 'public'");
         assertEquals(2, constructor.getParameterCount(), "Constructor should have 2 parameters");
 
         for (final Parameter parameter : constructor.getParameters()) {
@@ -79,20 +80,25 @@ public class SavingsCalculatorTest {
 
     @Test
     public void testCalculateExists() {
+        final String methodName = "calculate";
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
         final Class savingsCalculator = maybeSavingsCalculator.get();
 
-        final Method[] methods = savingsCalculator.getMethods();
-        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> method.getName().equals("calculate")).collect(Collectors.toList());
+        final Method[] methods = savingsCalculator.getDeclaredMethods();
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> {
+            return method.getName().equals(methodName);
+        }).collect(Collectors.toList());
 
-        assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called 'calculate'");
+        assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called '" + methodName + "'");
 
         final Method calculate = filteredMethod.get(0);
-        assertEquals(float.class, calculate.getReturnType(), "calculate method must return a value of type 'float'");
+        assertTrue(isPublic(calculate), methodName + " must be declared as 'public'");
+        assertEquals(float.class, calculate.getReturnType(), methodName + " method must return a value of type 'float'");
     }
 
     @Test
     public void testSumOfCreditsExists() {
+        // final String methodName = "sumOfCredits";
     }
 
     @Test
