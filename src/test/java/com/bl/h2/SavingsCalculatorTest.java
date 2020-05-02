@@ -7,6 +7,7 @@ import org.junit.platform.commons.function.Try;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.platform.commons.util.ReflectionUtils.*;
@@ -175,9 +176,19 @@ public class SavingsCalculatorTest {
         assertEquals(15.0f, result, methodName + " is not returning sum of credits.");
     }
 
-    @Disabled
     @Test
     public void testCalculateWorksCorrectly() {
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
+
+        float[] credits = new float[]{10.0f, 20.0f};
+        float[] debits = new float[]{5.0f, 10.f};
+
+        final SavingsCalculator calculator = newInstance(SavingsCalculator.class, credits, debits);
+        final float result = calculator.calculate();
+
+        assertEquals((10.0f + 20.0f) - (5.0f + 10.0f), result, "calculate method is not returning sum of credits minus sum of debits");
     }
 
     @Disabled
