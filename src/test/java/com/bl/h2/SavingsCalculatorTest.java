@@ -8,10 +8,10 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.platform.commons.util.ReflectionUtils.*;
 
+@SuppressWarnings("unused")
 public class SavingsCalculatorTest {
     private final String classToFind = "com.bl.h2.SavingsCalculator";
 
@@ -29,8 +29,9 @@ public class SavingsCalculatorTest {
     @Test
     public void testExistenceOfPrivateFields() {
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
-        final Class savingsCalculator = maybeSavingsCalculator.get();
-        final Set<String> fieldNames = new HashSet<String>(Arrays.asList("credits", "debits"));
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
+        final Set<String> fieldNames = new HashSet<>(Arrays.asList("credits", "debits"));
 
         final Field[] declaredFields = savingsCalculator.getDeclaredFields();
         assertEquals(2, declaredFields.length, "2 fields should be available in " + classToFind);
@@ -45,12 +46,13 @@ public class SavingsCalculatorTest {
     @Test
     public void testConstructor() {
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
-        final Class savingsCalculator = maybeSavingsCalculator.get();
-        final Constructor[] constructors = savingsCalculator.getDeclaredConstructors();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
+        final Constructor<?>[] constructors = savingsCalculator.getDeclaredConstructors();
 
         assertEquals(1, constructors.length, classToFind + " should have 1 constructor");
 
-        final Constructor constructor = constructors[0];
+        final Constructor<?> constructor = constructors[0];
         assertTrue(isPublic(constructor), "constructor must be declared 'public'");
         assertEquals(2, constructor.getParameterCount(), "Constructor should have 2 parameters");
 
@@ -65,16 +67,16 @@ public class SavingsCalculatorTest {
         float[] debits = new float[]{5.0f};
         final SavingsCalculator calculator = new SavingsCalculator(credits, debits);
 
-        final Class clazz = calculator.getClass();
+        final Class<?> clazz = calculator.getClass();
         final Field[] fields = clazz.getDeclaredFields();
 
         for (final Field field : fields) {
             field.setAccessible(true);
             float[] fieldValues = (float[]) field.get(calculator);
             if (field.getName().equals("credits")) {
-                assertTrue(Arrays.equals(credits, fieldValues), "credits parameter should set the value in class field name 'credits'");
+                assertArrayEquals(credits, fieldValues, "credits parameter should set the value in class field name 'credits'");
             } else if (field.getName().equals("debits")) {
-                assertTrue(Arrays.equals(debits, fieldValues), "debits parameter should set the value in class field name 'debits'");
+                assertArrayEquals(debits, fieldValues, "debits parameter should set the value in class field name 'debits'");
             }
         }
     }
@@ -83,12 +85,11 @@ public class SavingsCalculatorTest {
     public void testCalculateExists() {
         final String methodName = "calculate";
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
-        final Class savingsCalculator = maybeSavingsCalculator.get();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
 
         final Method[] methods = savingsCalculator.getDeclaredMethods();
-        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> {
-            return method.getName().equals(methodName);
-        }).collect(Collectors.toList());
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
 
         assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called '" + methodName + "'");
 
@@ -102,12 +103,11 @@ public class SavingsCalculatorTest {
         final String methodName = "sumOfCredits";
 
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
-        final Class savingsCalculator = maybeSavingsCalculator.get();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
 
         final Method[] methods = savingsCalculator.getDeclaredMethods();
-        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> {
-            return method.getName().equals(methodName);
-        }).collect(Collectors.toList());
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
 
         assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called '" + methodName + "'");
 
@@ -117,13 +117,11 @@ public class SavingsCalculatorTest {
     }
 
     @Test
-    public void testSumOfCreditsWorksCorrectly() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void testSumOfCreditsWorksCorrectly() {
         final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
-        final Class savingsCalculator = maybeSavingsCalculator.get();
-        final Constructor[] constructors = savingsCalculator.getConstructors();
-        assertEquals(1, constructors.length, classToFind + " must have a public constructor");
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
 
-        final Constructor<Class<?>> constructor = constructors[0];
         float[] credits = new float[]{10.0f, 20.0f};
         float[] debits = new float[]{5.0f};
 
@@ -131,6 +129,7 @@ public class SavingsCalculatorTest {
 
         final String methodName = "sumOfCredits";
         final Optional<Method> maybeMethod = findMethod(SavingsCalculator.class, methodName);
+        assertTrue(maybeMethod.isPresent());
         final Method sumOfCredits = maybeMethod.get();
         final float result = (float) invokeMethod(sumOfCredits, calculator);
 
