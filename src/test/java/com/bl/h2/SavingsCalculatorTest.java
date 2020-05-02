@@ -136,14 +136,43 @@ public class SavingsCalculatorTest {
         assertEquals(30.0f, result, methodName + " is not returning sum of credits.");
     }
 
-    @Disabled
     @Test
     public void testSumOfDebitsExists() {
+        final String methodName = "sumOfDebits";
+
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
+
+        final Method[] methods = savingsCalculator.getDeclaredMethods();
+        final List<Method> filteredMethod = Arrays.stream(methods).filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
+
+        assertEquals(1, filteredMethod.size(), classToFind + " should contain a method called '" + methodName + "'");
+
+        final Method sumOfCredits = filteredMethod.get(0);
+        assertTrue(isPrivate(sumOfCredits), methodName + " must be declared as 'private'");
+        assertEquals(float.class, sumOfCredits.getReturnType(), methodName + " method must return a value of type 'float'");
+
     }
 
-    @Disabled
     @Test
     public void testSumOfDebitsWorksCorrectly() {
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        assertTrue(maybeSavingsCalculator.isPresent());
+        final Class<?> savingsCalculator = maybeSavingsCalculator.get();
+
+        float[] credits = new float[]{10.0f, 20.0f};
+        float[] debits = new float[]{5.0f, 10.f};
+
+        final SavingsCalculator calculator = newInstance(SavingsCalculator.class, credits, debits);
+
+        final String methodName = "sumOfDebits";
+        final Optional<Method> maybeMethod = findMethod(SavingsCalculator.class, methodName);
+        assertTrue(maybeMethod.isPresent());
+        final Method sumOfDebits = maybeMethod.get();
+        final float result = (float) invokeMethod(sumOfDebits, calculator);
+
+        assertEquals(15.0f, result, methodName + " is not returning sum of credits.");
     }
 
     @Disabled
