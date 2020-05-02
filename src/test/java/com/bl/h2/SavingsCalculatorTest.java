@@ -1,13 +1,14 @@
 package com.bl.h2;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.platform.commons.util.ReflectionUtils.*;
@@ -191,8 +192,11 @@ public class SavingsCalculatorTest {
         assertEquals((10.0f + 20.0f) - (5.0f + 10.0f), result, "calculate method is not returning sum of credits minus sum of debits");
     }
 
-    @Disabled
     @Test
     public void testMainMethodPrintsCorrectOutput() {
+        final String credits = "10.0,20.0";
+        final String debits = "5.0,10.0";
+
+        SavingsCalculator.main(new String[]{credits, debits});
     }
 }
