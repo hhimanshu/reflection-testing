@@ -1,8 +1,10 @@
 package com.bl.h2;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.platform.commons.function.Try;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,6 +17,19 @@ import static org.junit.platform.commons.util.ReflectionUtils.*;
 
 @SuppressWarnings("unused")
 public class SavingsCalculatorTest {
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
+    @BeforeEach
+    public void setStreams() {
+        System.setOut(new PrintStream(out));
+    }
+
+    @AfterEach
+    public void restoreInitialStreams() {
+        System.setOut(originalOut);
+    }
+
     private final String classToFind = "com.bl.h2.SavingsCalculator";
 
     public Optional<Class<?>> getAppClass() {
@@ -195,8 +210,9 @@ public class SavingsCalculatorTest {
     @Test
     public void testMainMethodPrintsCorrectOutput() {
         final String credits = "10.0,20.0";
-        final String debits = "5.0,10.0";
+        final String debits = "5.0,20.0";
 
         SavingsCalculator.main(new String[]{credits, debits});
+        assertEquals("Net Savings = 5.0\n", out.toString());
     }
 }
