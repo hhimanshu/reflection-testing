@@ -116,9 +116,25 @@ public class SavingsCalculatorTest {
         assertEquals(float.class, sumOfCredits.getReturnType(), methodName + " method must return a value of type 'float'");
     }
 
-    @Disabled
     @Test
-    public void testSumOfCreditsWorksCorrectly() {
+    public void testSumOfCreditsWorksCorrectly() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Optional<Class<?>> maybeSavingsCalculator = getAppClass();
+        final Class savingsCalculator = maybeSavingsCalculator.get();
+        final Constructor[] constructors = savingsCalculator.getConstructors();
+        assertEquals(1, constructors.length, classToFind + " must have a public constructor");
+
+        final Constructor<Class<?>> constructor = constructors[0];
+        float[] credits = new float[]{10.0f, 20.0f};
+        float[] debits = new float[]{5.0f};
+
+        final SavingsCalculator calculator = newInstance(SavingsCalculator.class, credits, debits);
+
+        final String methodName = "sumOfCredits";
+        final Optional<Method> maybeMethod = findMethod(SavingsCalculator.class, methodName);
+        final Method sumOfCredits = maybeMethod.get();
+        final float result = (float) invokeMethod(sumOfCredits, calculator);
+
+        assertEquals(30.0f, result, methodName + " is not returning sum of credits.");
     }
 
     @Disabled
