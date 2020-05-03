@@ -41,9 +41,16 @@ public class AppTest {
 
         Parameter[] parameters = method.getParameters();
         assertEquals(1, parameters.length, methodName + " should have 1 parameter");
-        assertEquals(int[].class, parameters[0].getType(), methodName +  " parameter should be of type 'int[]'");
+        assertEquals(int[].class, parameters[0].getType(), methodName + " parameter should be of type 'int[]'");
 
         assertTrue(isStatic(method), methodName + "should be static method");
         assertTrue(isPrivate(method), methodName + "should be private method");
+    }
+
+    @Test
+    public void testDoubleTheNumber() {
+        for (int i = 1; i < 10; i++) {
+            assertEquals(2 * i, App.doubleTheNumber(i), i + " should be " + 2 * i);
+        }
     }
 }
