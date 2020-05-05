@@ -5,9 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,19 +20,33 @@ import static org.junit.platform.commons.util.ReflectionUtils.tryToLoadClass;
 
 public class CommandLineAppTest {
     private final String classToFind = "com.bl.h2.CommandLineApp";
-    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+
+    private final InputStream systemIn = System.in;
+    private final PrintStream systemOut = System.out;
+
+    private ByteArrayInputStream testIn;
+    private ByteArrayOutputStream testOut;
 
     @BeforeEach
-    public void setStreams() {
-        System.setOut(new PrintStream(out));
+    public void setUpOutput() {
+        testOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(testOut));
+    }
+
+    private void provideInput(String data) {
+        testIn = new ByteArrayInputStream(data.getBytes());
+        System.setIn(testIn);
+    }
+
+    private String getOutput() {
+        return testOut.toString();
     }
 
     @AfterEach
-    public void restoreInitialStreams() {
-        System.setOut(originalOut);
+    public void restoreSystemInputOutput() {
+        System.setIn(systemIn);
+        System.setOut(systemOut);
     }
-
 
     public Optional<Class<?>> getAppClass() {
         Try<Class<?>> aClass = tryToLoadClass(classToFind);
@@ -43,7 +62,14 @@ public class CommandLineAppTest {
 
     @Test
     public void testInputOutput() {
-        CommandLineApp.main(new String[]{});
-        assertEquals("Enter your name: ", out.toString());
+        final String testString = "H2";
+        provideInput(testString);
+
+        CommandLineApp.main(new String[0]);
+
+        List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
+        assertEquals("Enter your name", outputList.get(0));
+        assertEquals("Hello " + testString, outputList.get(1));
+        assertEquals(2, outputList.size());
     }
 }

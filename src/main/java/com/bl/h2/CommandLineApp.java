@@ -1,16 +1,13 @@
 package com.bl.h2;
 
-import java.io.Console;
+import java.util.Scanner;
 
 public class CommandLineApp {
     public static void main(String[] args) {
-        final Console c = System.console();
-        if (c == null) {
-            System.err.println("console not available");
-            System.exit(1);
-        }
-
-        String userName = c.readLine("Enter your name: ");
-        System.out.println("Hello " + userName);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your name");
+        String name = scanner.nextLine();
+        System.out.print("Hello " + name);
+        scanner.close();
     }
 }
