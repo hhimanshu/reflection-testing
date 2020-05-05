@@ -62,14 +62,19 @@ public class CommandLineAppTest {
 
     @Test
     public void testInputOutput() {
-        final String testString = "H2";
+        final String name = "H2";
+        final int age = 32;
+        final String testString = name + "\n" + age;
         provideInput(testString);
 
         CommandLineApp.main(new String[0]);
 
         List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
         assertEquals("Enter your name", outputList.get(0));
-        assertEquals("Hello " + testString, outputList.get(1));
-        assertEquals(2, outputList.size());
+        assertEquals("Hello " + name, outputList.get(1));
+
+        assertEquals("Enter your age", outputList.get(2));
+        assertEquals("Your Age: " + age, outputList.get(3));
+        assertEquals(4, outputList.size());
     }
 }
