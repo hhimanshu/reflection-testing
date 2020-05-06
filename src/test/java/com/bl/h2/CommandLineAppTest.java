@@ -2,6 +2,7 @@ package com.bl.h2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
@@ -61,7 +62,7 @@ public class CommandLineAppTest {
     }
 
     @Test
-    public void testInputOutput() {
+    public void testName() {
         final String name = "H2";
         final int age = 32;
         final String testString = name + "\n" + age;
@@ -72,9 +73,54 @@ public class CommandLineAppTest {
         List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
         assertEquals("Enter your name", outputList.get(0));
         assertEquals("Hello " + name, outputList.get(1));
+    }
 
-        assertEquals("Enter your age", outputList.get(2));
-        assertEquals("Your Age: " + age, outputList.get(3));
+    @Disabled
+    @Test
+    public void testBestRates() {
+
+    }
+
+    @Disabled
+    @Test
+    public void testGetRatesExistence() {
+
+    }
+
+    @Test
+    public void testNameAndValidLoanTerm() {
+        final String name = "H2";
+        final int loanTermInYears = 2;
+        final String testString = name + "\n" + loanTermInYears;
+        provideInput(testString);
+
+        CommandLineApp.main(new String[0]);
+
+        List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
+        assertEquals("Enter your name", outputList.get(0));
+        assertEquals("Hello " + name, outputList.get(1));
+
+        assertEquals("Enter the loan term (in years)", outputList.get(2));
+        assertEquals("Best Available Rate: " + CommandLineApp.bestRates.get(loanTermInYears), outputList.get(3));
         assertEquals(4, outputList.size());
     }
+
+    @Test
+    public void testNameAndInValidLoanTerm() {
+        final String name = "H2";
+        final int loanTermInYears = 20;
+        final String testString = name + "\n" + loanTermInYears;
+        provideInput(testString);
+
+        CommandLineApp.main(new String[0]);
+
+        List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
+        assertEquals("Enter your name", outputList.get(0));
+        assertEquals("Hello " + name, outputList.get(1));
+
+        assertEquals("Enter the loan term (in years)", outputList.get(2));
+        assertEquals("No available rates for term: " + loanTermInYears + " years", outputList.get(3));
+        assertEquals(4, outputList.size());
+    }
+
 }
