@@ -10,10 +10,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -94,10 +93,28 @@ public class CommandLineAppTest {
         assertTrue(isPublic(method), getRates + " must be a public method");
     }
 
-    @Disabled
     @Test
-    public void testGetRatesExistence() {
+    public void testBestRatesExistence() throws IllegalAccessException {
+        String bestRates = "bestRates";
+        final Optional<Class<?>> maybeClass = getAppClass();
+        assertTrue(maybeClass.isPresent(), classToFind + " should be present");
+        Class<?> c = maybeClass.get();
+        List<Field> fields = Arrays.stream(c.getFields())
+                .filter(f -> f.getName().equals(bestRates))
+                .collect(Collectors.toList());
 
+        assertEquals(1, fields.size(), bestRates + " must be defined as a field in CommandLineApp.");
+
+        Field field = fields.get(0);
+        assertEquals(java.util.Map.class, field.getType(), bestRates + " must be of type 'Map'");
+
+        field.setAccessible(true);
+        Map<Integer, Float> fieldValues = (Map<Integer, Float>) field.get(CommandLineApp.class);
+
+        assertEquals(3, fieldValues.size(), bestRates + " should have 3 entries");
+        assertEquals(5.50f, fieldValues.get(1), bestRates + " should return '5.50f' for key '1'");
+        assertEquals(3.45f, fieldValues.get(2), bestRates + " should return '3.45f' for key '2'");
+        assertEquals(2.67f, fieldValues.get(3), bestRates + " should return '2.67f' for key '3'");
     }
 
     @Test

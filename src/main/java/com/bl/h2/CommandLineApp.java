@@ -1,11 +1,14 @@
 package com.bl.h2;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class CommandLineApp {
-    public final static Map<Integer, Float> bestRates = new HashMap<>();
+    public final static Map<Integer, Float> bestRates = Map.of(
+            1, 5.50f,
+            2, 3.45f,
+            3, 2.67f
+    );
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -14,10 +17,6 @@ public class CommandLineApp {
         System.out.println("Enter your name");
         String name = scanner.nextLine();
         System.out.println("Hello " + name);
-
-        bestRates.put(1, 5.50f);
-        bestRates.put(2, 3.45f);
-        bestRates.put(3, 2.67f);
 
         System.out.println("Enter the loan term (in years)");
         int loanTermInYears = scanner.nextInt();
