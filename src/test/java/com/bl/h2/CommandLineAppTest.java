@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.platform.commons.util.ReflectionUtils.tryToLoadClass;
+import static org.junit.platform.commons.util.ReflectionUtils.*;
 
 public class CommandLineAppTest {
     private final String classToFind = "com.bl.h2.CommandLineApp";
@@ -75,10 +76,22 @@ public class CommandLineAppTest {
         assertEquals("Hello " + name, outputList.get(1));
     }
 
-    @Disabled
     @Test
-    public void testBestRates() {
+    public void testGetRatesMethod() {
+        String getRates = "getRates";
+        final Optional<Class<?>> maybeClass = getAppClass();
+        assertTrue(maybeClass.isPresent(), classToFind + " should be present");
+        Class<?> c = maybeClass.get();
+        List<Method> methods = Arrays.stream(c.getDeclaredMethods())
+                .filter(m -> m.getName().equals(getRates))
+                .collect(Collectors.toList());
 
+        assertEquals(1, methods.size(), getRates + " must be defined as a method in CommandLineApp");
+
+        final Method method = methods.get(0);
+        assertEquals(float.class, method.getReturnType(), getRates + " must return 'float' as the return type");
+        assertTrue(isStatic(method), getRates + " must be a static method");
+        assertTrue(isPublic(method), getRates + " must be a public method");
     }
 
     @Disabled
