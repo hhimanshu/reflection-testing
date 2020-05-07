@@ -2,9 +2,10 @@ import java.util.Map;
 
 public class Finance {
 
-    // add 2 more rates. Add tests
     public static final Map<String, String> commandsToUsage = Map.of(
-            "bestLoanRates", "usage: Finance bestLoanRates <numberOfYears>"
+            "bestLoanRates", "usage: Finance bestLoanRates <numberOfYears>",
+            "savingsCalculator", "usage: SavingsCalculator <credits separated by ','> <debits separated by ','>",
+            "mortgageCalculator", "usage: MortgageCalculator <loanAmount> <termInYears> <annualRate>"
     );
 
     /*
