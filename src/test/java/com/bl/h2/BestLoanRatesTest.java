@@ -2,7 +2,6 @@ package com.bl.h2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.function.Try;
 
@@ -19,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.platform.commons.util.ReflectionUtils.*;
 
-public class CommandLineAppTest {
-    private final String classToFind = "com.bl.h2.CommandLineApp";
+public class BestLoanRatesTest {
+    private final String classToFind = "com.bl.h2.BestLoanRates";
 
     private final InputStream systemIn = System.in;
     private final PrintStream systemOut = System.out;
@@ -68,7 +67,7 @@ public class CommandLineAppTest {
         final String testString = name + "\n" + age;
         provideInput(testString);
 
-        CommandLineApp.main(new String[0]);
+        BestLoanRates.main(new String[0]);
 
         List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
         assertEquals("Enter your name", outputList.get(0));
@@ -109,7 +108,7 @@ public class CommandLineAppTest {
         assertEquals(java.util.Map.class, field.getType(), bestRates + " must be of type 'Map'");
 
         field.setAccessible(true);
-        Map<Integer, Float> fieldValues = (Map<Integer, Float>) field.get(CommandLineApp.class);
+        Map<Integer, Float> fieldValues = (Map<Integer, Float>) field.get(BestLoanRates.class);
 
         assertEquals(3, fieldValues.size(), bestRates + " should have 3 entries");
         assertEquals(5.50f, fieldValues.get(1), bestRates + " should return '5.50f' for key '1'");
@@ -124,14 +123,14 @@ public class CommandLineAppTest {
         final String testString = name + "\n" + loanTermInYears;
         provideInput(testString);
 
-        CommandLineApp.main(new String[0]);
+        BestLoanRates.main(new String[0]);
 
         List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
         assertEquals("Enter your name", outputList.get(0));
         assertEquals("Hello " + name, outputList.get(1));
 
         assertEquals("Enter the loan term (in years)", outputList.get(2));
-        assertEquals("Best Available Rate: " + CommandLineApp.bestRates.get(loanTermInYears) + "%", outputList.get(3));
+        assertEquals("Best Available Rate: " + BestLoanRates.bestRates.get(loanTermInYears) + "%", outputList.get(3));
         assertEquals(4, outputList.size());
     }
 
@@ -142,7 +141,7 @@ public class CommandLineAppTest {
         final String testString = name + "\n" + loanTermInYears;
         provideInput(testString);
 
-        CommandLineApp.main(new String[0]);
+        BestLoanRates.main(new String[0]);
 
         List<String> outputList = Arrays.stream(getOutput().split("\n")).collect(Collectors.toList());
         assertEquals("Enter your name", outputList.get(0));
