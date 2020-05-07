@@ -131,7 +131,7 @@ public class CommandLineAppTest {
         assertEquals("Hello " + name, outputList.get(1));
 
         assertEquals("Enter the loan term (in years)", outputList.get(2));
-        assertEquals("Best Available Rate: " + CommandLineApp.bestRates.get(loanTermInYears), outputList.get(3));
+        assertEquals("Best Available Rate: " + CommandLineApp.bestRates.get(loanTermInYears) + "%", outputList.get(3));
         assertEquals(4, outputList.size());
     }
 
