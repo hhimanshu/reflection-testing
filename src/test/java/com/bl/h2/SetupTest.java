@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.platform.commons.util.ReflectionUtils.*;
 
-public class AppTest {
-    private final String classToFind = "com.bl.h2.App";
+public class SetupTest {
+    private final String classToFind = "com.bl.h2.Setup";
 
     public Optional<Class<?>> getAppClass() {
         Try<Class<?>> aClass = tryToLoadClass(classToFind);
@@ -50,7 +50,7 @@ public class AppTest {
     @Test
     public void testDoubleTheNumber() {
         for (int i = 1; i < 10; i++) {
-            assertEquals(2 * i, App.doubleTheNumber(i), i + " should be " + 2 * i);
+            assertEquals(2 * i, Setup.doubleTheNumber(i), i + " should be " + 2 * i);
         }
     }
 }

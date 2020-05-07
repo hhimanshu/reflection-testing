@@ -1,6 +1,6 @@
 package com.bl.h2;
 
-public class App {
+public class Setup {
     public static void main(String[] args) {
         System.out.println("Hello");
 
