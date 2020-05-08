@@ -1,3 +1,8 @@
+import com.bl.h2.BestLoanRates;
+import com.bl.h2.MortgageCalculator;
+import com.bl.h2.SavingsCalculator;
+
+import java.util.Arrays;
 import java.util.Map;
 
 public class Finance {
@@ -23,6 +28,24 @@ public class Finance {
         if (!isValidCommand) {
             System.out.println(commandsToUsage.get(args[0]));
             System.exit(-1);
+        }
+
+        executeCommand(command, Arrays.copyOfRange(args, 1, args.length));
+    }
+
+    private static void executeCommand(String command, String[] arguments) {
+        switch (command) {
+            case BEST_LOAN_RATES:
+                System.out.println("Finding best loan rates ..."); // for testing just log
+                BestLoanRates.main(arguments); // for another test call these methods and have executeCommand add to main method
+                return;
+            case SAVINGS_CALCULATOR:
+                System.out.println("Finding your net savings ...");
+                SavingsCalculator.main(arguments);
+                return;
+            case MORTGAGE_CALCULATOR:
+                System.out.println("Finding your monthly payment ...");
+                MortgageCalculator.main(arguments);
         }
     }
 

@@ -80,4 +80,33 @@ public class FinanceTest {
          * 3. Right values for each field
          */
     }
+
+    @Disabled
+    @Test
+    public void testExecuteCommandExistence() {
+        /*
+         * 1. Method exists
+         * 2. isPrivate isStatic, returns nothing
+         * 3. Has parameters
+         */
+    }
+
+    @Disabled
+    @Test
+    public void testExecuteCommandExistenceForCorrectness() {
+        /*
+         * 1. Test the validity for correct statement printed on console based on command
+         */
+    }
+
+    @Disabled
+    @Test
+    public void testMainWithValidCommandUsage() {
+        /*
+         * 1. Test with bestLoanRates 1
+         * 2. Test with savingsCalculator 20.0,30.0 10.0,5.0
+         * 3. Test with mortgageCalculator 264000 30 3.74f
+         */
+    }
+
 }
