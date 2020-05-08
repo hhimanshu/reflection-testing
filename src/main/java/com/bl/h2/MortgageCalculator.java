@@ -36,7 +36,10 @@ public class MortgageCalculator {
     }
 
     public static void main(String[] args) {
-        final MortgageCalculator c = new MortgageCalculator(264000, 30, 3.74f);
+        final long loanAmount = Long.parseLong(args[0]);
+        final int termInYears = Integer.parseInt(args[1]);
+        final float annualRate = Float.parseFloat(args[2]);
+        final MortgageCalculator c = new MortgageCalculator(loanAmount, termInYears, annualRate);
         final double monthlyPayment = c.getMonthlyPayment();
         DecimalFormat df = new DecimalFormat("####0.00");
 
