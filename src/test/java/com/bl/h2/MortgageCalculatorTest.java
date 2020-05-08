@@ -88,4 +88,10 @@ public class MortgageCalculatorTest {
           1. MortgageCalculator.main.
          */
     }
+
+    @Disabled
+    @Test
+    public void testMainMethodForCorrectArgumentLengths() {
+
+    }
 }

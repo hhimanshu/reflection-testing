@@ -30,6 +30,11 @@ public class SavingsCalculator {
     }
 
     public static void main(String[] args) {
+        if (args.length < 2) {
+            System.out.println("usage: savingsCalculator <credits separated by ','> <debits separated by ','>");
+            System.exit(-1);
+        }
+
         final String[] creditsAsString = args[0].split(",");
         final String[] debitsAsString = args[1].split(",");
 

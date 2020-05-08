@@ -215,4 +215,11 @@ public class SavingsCalculatorTest {
         SavingsCalculator.main(new String[]{credits, debits});
         assertEquals("Net Savings = 5.0\n", out.toString());
     }
+
+    @Disabled
+    @Test
+    public void testMainMethodForCorrectArgumentLengths() {
+
+    }
+
 }

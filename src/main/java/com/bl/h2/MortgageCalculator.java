@@ -36,6 +36,11 @@ public class MortgageCalculator {
     }
 
     public static void main(String[] args) {
+        if (args.length < 3) {
+            System.out.println("usage: mortgageCalculator <loanAmount> <termInYears> <annualRate>");
+            System.exit(-1);
+        }
+
         final long loanAmount = Long.parseLong(args[0]);
         final int termInYears = Integer.parseInt(args[1]);
         final float annualRate = Float.parseFloat(args[2]);
