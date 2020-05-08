@@ -66,6 +66,18 @@ public class FinanceTest {
     @Disabled
     @Test
     public void testMainWithValidCommandInvalidUsage() {
+        /*
+         * 1. test all valid command names with invalid arguments lengths
+         */
+    }
 
+    @Disabled
+    @Test
+    public void testCommandConstantFields() {
+        /*
+         * 1. Existence of BEST_LOAN_RATES, SAVINGS_CALCULATOR, MORTGAGE_CALCULATOR
+         * 2. isPublic, isStatic, isFinal
+         * 3. Right values for each field
+         */
     }
 }
