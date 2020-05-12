@@ -31,6 +31,15 @@ public class SavingsCalculator {
         return sum;
     }
 
+    private static boolean allAmountsAreValid(float[] amounts) {
+        for (float amount : amounts) {
+            if (amount <= 0.0f) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         if (args.length < 2) {
             System.out.println("usage: savingsCalculator <credits separated by ','> <debits separated by ','>");
@@ -49,6 +58,16 @@ public class SavingsCalculator {
 
         for (int i = 0; i < debitsAsString.length; i++) {
             debits[i] = Utilities.getFloatValue(debitsAsString[i]);
+        }
+
+        if (!allAmountsAreValid(credits)) {
+            System.out.println("All credit amounts must be >=0.0");
+            return;
+        }
+
+        if (!allAmountsAreValid(debits)) {
+            System.out.println("All debit amounts must be >=0.0");
+            return;
         }
 
         final SavingsCalculator calculator = new SavingsCalculator(credits, debits);

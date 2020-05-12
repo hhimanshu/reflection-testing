@@ -222,4 +222,16 @@ public class SavingsCalculatorTest {
 
     }
 
+    @Disabled
+    @Test
+    public void testAllAmountsAreValidExistent() {
+
+    }
+
+    @Disabled
+    @Test
+    public void testAllAmountsAreValidCorrectness() {
+
+    }
+
 }
