@@ -69,4 +69,10 @@ public class UtilitiesTest {
     public void testGetIntValueCorrectness() {
 
     }
+
+    @Disabled
+    @Test
+    public void testFinally() {
+
+    }
 }
