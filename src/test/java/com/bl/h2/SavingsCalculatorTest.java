@@ -213,7 +213,7 @@ public class SavingsCalculatorTest {
         final String debits = "5.0,20.0";
 
         SavingsCalculator.main(new String[]{credits, debits});
-        assertEquals("Net Savings = 5.0\n", out.toString());
+        assertEquals("Net Savings = 5.0, remaining days in month = " + SavingsCalculator.remainingDaysInMonth() + "\n", out.toString());
     }
 
     @Disabled

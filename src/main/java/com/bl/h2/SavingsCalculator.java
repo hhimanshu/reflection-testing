@@ -2,6 +2,9 @@ package com.bl.h2;
 
 import jdk.jshell.execution.Util;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+
 public class SavingsCalculator {
     private final float[] credits;
     private final float[] debits;
@@ -40,6 +43,14 @@ public class SavingsCalculator {
         return true;
     }
 
+    public static int remainingDaysInMonth() {
+        final LocalDate date = LocalDate.now();
+//        final LocalDate date = LocalDate.of(2020, 6, 1);
+        final YearMonth yearMonth = YearMonth.of(date.getYear(), date.getMonth());
+        final int totalDaysInCurrentMonth = yearMonth.lengthOfMonth();
+        return totalDaysInCurrentMonth - date.getDayOfMonth() + 1;
+    }
+
     public static void main(String[] args) {
         if (args.length < 2) {
             System.out.println("usage: savingsCalculator <credits separated by ','> <debits separated by ','>");
@@ -72,6 +83,6 @@ public class SavingsCalculator {
 
         final SavingsCalculator calculator = new SavingsCalculator(credits, debits);
 
-        System.out.println("Net Savings = " + calculator.calculate());
+        System.out.println("Net Savings = " + calculator.calculate() + ", remaining days in month = " + remainingDaysInMonth());
     }
 }
