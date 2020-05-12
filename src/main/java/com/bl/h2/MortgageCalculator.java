@@ -6,6 +6,7 @@ public class MortgageCalculator {
     private final long loanAmount;
     private final int termInYears;
     private final float annualRate;
+    private double monthlyPayment;
 
     public MortgageCalculator(long loanAmount, int termInYears, float annualRate) {
         this.loanAmount = loanAmount;
@@ -22,7 +23,7 @@ public class MortgageCalculator {
         return interestRate / 12;
     }
 
-    public double getMonthlyPayment() {
+    public void calculateMonthlyPayment() {
         long P = loanAmount;
         float r = getMonthlyInterestRate();
         int n = getNumberOfPayments();
@@ -32,7 +33,7 @@ public class MortgageCalculator {
         System.out.println("n=" + n);
         double M = P * (((r * Math.pow(1 + r, n))) / ((Math.pow((1 + r), n)) - 1));
 
-        return M;
+        this.monthlyPayment = M;
     }
 
     public static void main(String[] args) {
@@ -45,9 +46,15 @@ public class MortgageCalculator {
         final int termInYears = Utilities.getIntValue(args[1]);
         final float annualRate = Utilities.getFloatValue(args[2]);
         final MortgageCalculator c = new MortgageCalculator(loanAmount, termInYears, annualRate);
-        final double monthlyPayment = c.getMonthlyPayment();
-        DecimalFormat df = new DecimalFormat("####0.00");
 
-        System.out.println("Monthly Payment: " + df.format(monthlyPayment));
+        c.calculateMonthlyPayment();
+
+        System.out.println("Monthly Payment: " + c.toString());
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("####0.00");
+        return "monthlyPayment: " + df.format(monthlyPayment);
     }
 }

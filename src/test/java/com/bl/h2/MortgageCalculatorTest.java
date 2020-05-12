@@ -94,4 +94,18 @@ public class MortgageCalculatorTest {
     public void testMainMethodForCorrectArgumentLengths() {
 
     }
+
+    @Disabled
+    @Test
+    public void testToStringExistence() {
+
+    }
+
+    @Disabled
+    @Test
+    public void testToStringCorrectness() {
+
+    }
+
+
 }
